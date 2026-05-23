@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanStay | Rooms & Dining</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --dark-bg: #0b0f19; --card-bg: #151b2b; --gold: #cfa162; --text-main: #f3f4f6; --text-muted: #9ca3af; }
+        body { background-color: var(--dark-bg); color: var(--text-main); font-family: 'Outfit', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
+        * { box-sizing: border-box; }
+
+        /* NAVBAR */
+        nav {
+            position: fixed; width: 100%; padding: 20px 50px; background: rgba(11, 15, 25, 0.95);
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000; border-bottom: 1px solid rgba(207, 161, 98, 0.2);
+        }
+        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; letter-spacing: 1px; } .logo span { color: var(--gold); }
+        .nav-links { list-style: none; display: flex; gap: 40px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #fff; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+        .page-title { text-align: center; padding: 120px 20px 40px; }
+        .page-title h2 { font-size: 3.5rem; color: var(--gold); margin-bottom: 10px; font-family: 'Playfair Display'; }
+        .page-title p { color: #999; font-size: 1.1rem; }
+
+        /* HEADINGS */
+        .section-heading { text-align: center; margin: 80px 0 40px; font-size: 2.5rem; color: #fff; font-family: 'Playfair Display'; position: relative; padding-bottom: 15px; }
+        .section-heading::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: var(--gold); }
+        
+        .cat-heading { margin: 50px 5% 20px; font-size: 1.8rem; color: var(--gold); border-left: 5px solid var(--gold); padding-left: 15px; background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent); padding-top: 10px; padding-bottom: 10px; font-family: 'Playfair Display'; }
+
+        /* GRID SYSTEM */
+        .rooms-grid, .dining-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 0 5% 60px; max-width: 1400px; margin: 0 auto; }
+        
+        /* CARDS */
+        .room-card, .food-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; position: relative; display: flex; flex-direction: column; }
+        .room-card:hover, .food-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+        
+        .room-img, .food-img { width: 100%; object-fit: cover; transition: 0.5s; }
+        .room-img { height: 220px; } .food-img { height: 200px; }
+        .room-card:hover .room-img, .food-card:hover .food-img { transform: scale(1.1); }
+        .img-wrap { overflow: hidden; position: relative; }
+        
+        .badge { position: absolute; top: 15px; right: 15px; padding: 5px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; color: #fff; z-index: 2; }
+        .bg-ac { background: #10b981; } .bg-non { background: #f59e0b; }
+
+        .details, .food-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .details h3, .food-info h4 { font-size: 1.3rem; color: #fff; margin-bottom: 5px; font-family: 'Playfair Display'; }
+        .details .capacity { font-size: 0.8rem; color: #aaa; text-transform: uppercase; margin-bottom: 15px; font-weight: 600; }
+        .details p, .food-info p { font-size: 0.9rem; color: #888; margin-bottom: 20px; line-height: 1.5; }
+        
+        .price-box, .food-footer { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; border-top: 1px solid #333; padding-top: 15px; }
+        .price, .food-price { font-size: 1.2rem; color: var(--gold); font-weight: 700; font-family: 'Outfit'; width: 100%; margin-bottom: 5px; }
+        
+        /* BUTTONS */
+        .btn-group { display: flex; gap: 10px; width: 100%; }
+        button { cursor: pointer; transition: 0.3s; font-family: 'Outfit', sans-serif; }
+        
+        button.book-btn { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--gold); color: var(--gold); text-transform: uppercase; border-radius: 4px; font-weight: bold; }
+        button.book-btn:hover { background: var(--gold); color: #000; }
+        
+        button.cart-btn { flex: 1; padding: 10px; background: transparent; border: 1px solid #fff; color: #fff; border-radius: 4px; font-size: 0.8rem; text-transform: uppercase; }
+        button.cart-btn:hover { background: #fff; color: #000; }
+        
+        button.order-btn { flex: 1; padding: 10px; background: var(--gold); border: none; color: #000; border-radius: 4px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
+        button.order-btn:hover { background: #fff; }
+
+        /* FLOATING CART */
+        .floating-cart { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: var(--gold); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; z-index: 2000; transition: 0.3s; }
+        .floating-cart:hover { transform: scale(1.1); background: #fff; }
+        .cart-count { position: absolute; top: 0; right: 0; background: red; color: #fff; width: 25px; height: 25px; border-radius: 50%; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 2px; padding: 16px; position: fixed; z-index: 3000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 1rem; border-left: 5px solid var(--gold); }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        /* FOOTER */
+        footer { background: #05080f; color: #fff; padding-top: 70px; border-top: 1px solid #222; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; padding: 0 8% 60px; max-width: 1400px; margin: 0 auto; }
+        .footer-col h4 { font-size: 1.3rem; color: var(--gold); margin-bottom: 25px; font-family: 'Playfair Display'; letter-spacing: 1px; }
+        .footer-col p, .footer-col ul li a { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; text-decoration: none; transition: 0.3s; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a:hover { color: var(--gold); transform: translateX(5px); display: inline-block; }
+        .footer-col ul li i { color: var(--gold); width: 25px; margin-right: 5px; }
+        
+        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+        .social-links a { width: 45px; height: 45px; background: rgba(255,255,255,0.05); color: var(--gold); display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.4s; border: 1px solid rgba(255,255,255,0.1); font-size: 1.1rem; }
+        .social-links a:hover { background: var(--gold); color: #000; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(207, 161, 98, 0.3); }
+        
+        .newsletter-form { display: flex; margin-top: 15px; }
+        .newsletter-form input { padding: 10px; width: 100%; border: none; border-radius: 4px 0 0 4px; outline: none; }
+        .newsletter-form button { padding: 10px 15px; background: var(--gold); border: none; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; }
+        .footer-bottom { text-align: center; padding: 25px; background: #020305; font-size: 0.85rem; color: #666; letter-spacing: 1px; }
+
+        /* RESPONSIVE MEDIA QUERIES */
+        @media(max-width: 1024px) { 
+            .rooms-grid, .dining-grid { grid-template-columns: repeat(2, 1fr); } 
+        }
+        @media(max-width: 768px) {
+            nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .nav-links { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            .rooms-grid, .dining-grid { grid-template-columns: 1fr; }
+            .page-title h2 { font-size: 2.5rem; }
+            .footer-container { padding: 0 20px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">URBAN<span>STAY</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">Management</a></li>
+            <li><a href="services.html" class="active">Rooms & Dining</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-title">
+        <h2>Our Accommodation</h2>
+        <p>12 Exclusive Room Categories</p>
+    </div>
+
+    <h3 class="cat-heading"><i class="fas fa-snowflake"></i> Premium AC Collection (6 Rooms)</h3>
+    <div class="rooms-grid">
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-ac">AC</span><img src="r1.avif" class="room-img"></div><div class="details"><h3>Single Executive</h3><span class="capacity">1 Person</span><p>Compact luxury with work desk & WiFi.</p><div class="price-box"><span class="price">₹2,500</span><button onclick="bookRoom('Single Executive AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-ac">AC</span><img src="r2.jpg" class="room-img"></div><div class="details"><h3>Couple Deluxe</h3><span class="capacity">2 People</span><p>King bed with city view and minibar.</p><div class="price-box"><span class="price">₹4,000</span><button onclick="bookRoom('Couple Deluxe AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-ac">AC</span><img src="r3.jpg" class="room-img"></div><div class="details"><h3>Business Twin</h3><span class="capacity">2 People</span><p>Two separate single beds for colleagues.</p><div class="price-box"><span class="price">₹4,500</span><button onclick="bookRoom('Business Twin AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-ac">AC</span><img src="r4.webp" class="room-img"></div><div class="details"><h3>Family Quad</h3><span class="capacity">4 People</span><p>Two double beds, extra seating area.</p><div class="price-box"><span class="price">₹6,500</span><button onclick="bookRoom('Family Quad AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-ac">AC</span><img src="r5.webp" class="room-img"></div><div class="details"><h3>Royal Maharaja</h3><span class="capacity">2 People</span><p>Our finest suite with gold décor.</p><div class="price-box"><span class="price">₹10,000</span><button onclick="bookRoom('Royal Maharaja Suite')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-ac">AC</span><img src="r6.jpg" class="room-img"></div><div class="details"><h3>Grand Joint Family</h3><span class="capacity">8 People</span><p>4 connected bedrooms with central hall.</p><div class="price-box"><span class="price">₹12,000</span><button onclick="bookRoom('Grand Joint Family AC')" class="book-btn">Book Now</button></div></div></div>
+    </div>
+
+    <h3 class="cat-heading"><i class="fas fa-wind"></i> Eco Non-AC Collection (6 Rooms)</h3>
+    <div class="rooms-grid">
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-non">NON-AC</span><img src="RN1.png" class="room-img"></div><div class="details"><h3>Standard Single</h3><span class="capacity">1 Person</span><p>Budget room with high-speed fan.</p><div class="price-box"><span class="price">₹1,200</span><button onclick="bookRoom('Standard Single Non-AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-non">NON-AC</span><img src="RN2.jpg" class="room-img"></div><div class="details"><h3>Standard Double</h3><span class="capacity">2 People</span><p>Comfortable queen bed, airy & clean.</p><div class="price-box"><span class="price">₹1,800</span><button onclick="bookRoom('Standard Double Non-AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-non">NON-AC</span><img src="RN3.jpg" class="room-img"></div><div class="details"><h3>Family Economy</h3><span class="capacity">4 People</span><p>Large room with 4 single beds.</p><div class="price-box"><span class="price">₹3,000</span><button onclick="bookRoom('Family Economy Non-AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-non">NON-AC</span><img src="RN4.webp" class="room-img"></div><div class="details"><h3>Traveler Dorm</h3><span class="capacity">Per Bed</span><p>Shared dormitory with locker facility.</p><div class="price-box"><span class="price">₹800</span><button onclick="bookRoom('Traveler Dormitory')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-non">NON-AC</span><img src="RN5.jpg" class="room-img"></div><div class="details"><h3>Budget Twin</h3><span class="capacity">2 People</span><p>Two single beds with fan cooling.</p><div class="price-box"><span class="price">₹1,500</span><button onclick="bookRoom('Budget Twin Non-AC')" class="book-btn">Book Now</button></div></div></div>
+        <div class="room-card"><div class="img-wrap"><span class="badge bg-non">NON-AC</span><img src="RN6.webp" class="room-img"></div><div class="details"><h3>Garden View Cottage</h3><span class="capacity">2 People</span><p>Natural ventilation cottage near garden.</p><div class="price-box"><span class="price">₹2,000</span><button onclick="bookRoom('Garden View Cottage')" class="book-btn">Book Now</button></div></div></div>
+    </div>
+
+    <h2 class="section-heading">Restaurant Menu</h2>
+
+    <h3 class="cat-heading">Main Course Specials</h3>
+    <div class="dining-grid">
+        <script>
+            const foods = [
+                {n:"Paneer Butter Masala", p:280, d:"Punjabi Special", i:"P1.webp"}, {n:"Kaju Curry", p:300, d:"Punjabi Special", i:"P2.webp"},
+                {n:"Dal Makhani", p:240, d:"Punjabi Special", i:"P3.jpg"}, {n:"Sarson Da Saag", p:260, d:"Punjabi Special", i:"P4.webp"},
+                {n:"Undhiyu", p:250, d:"Gujarati Special", i:"G1.jpg"}, {n:"Sev Tameta", p:200, d:"Gujarati Special", i:"G2.jpg"},
+                {n:"Ringan Bhartha", p:220, d:"Gujarati Special", i:"G3.webp"}, {n:"Gujarati Kadhi", p:180, d:"Gujarati Special", i:"G4.webp"},
+                {n:"Veg Manchurian", p:240, d:"Chinese Special", i:"C1.jpg"}, {n:"Paneer Chilli", p:260, d:"Chinese Special", i:"C2.jpg"},
+                {n:"Schezwan Noodles", p:200, d:"Chinese Special", i:"C3.webp"}, {n:"Hakka Noodles", p:220, d:"Chinese Special", i:"C4.webp"}
+            ];
+            foods.forEach(f => document.write(`
+                <div class="food-card">
+                    <img src="${f.i}" class="food-img">
+                    <div class="food-info">
+                        <h4>${f.n}</h4><p>${f.d}</p>
+                        <div class="food-footer">
+                            <span class="food-price">₹${f.p}</span>
+                            <div class="btn-group">
+                                <button onclick="addToCart('${f.n}', ${f.p})" class="cart-btn"><i class="fas fa-cart-plus"></i> Add</button>
+                                <button onclick="buyNow('${f.n}', ${f.p})" class="order-btn">Order Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `));
+        </script>
+    </div>
+
+    <h3 class="cat-heading">Indian Breads</h3>
+    <div class="dining-grid">
+        <script>
+            const breads = [
+                {n:"Butter Naan", p:50, i:"N1.webp"}, {n:"Garlic Naan", p:70, i:"N2.jpg"},
+                {n:"Tandoori Roti", p:30, i:"Tandoori-Roti.png"}, {n:"Butter Roti", p:40, i:"butter.jpg"},
+                {n:"Lachha Paratha", p:60, i:"lachhaP.png"}, {n:"Puri Bhaji", p:120, i:"Puri1.jpg"}
+            ];
+            breads.forEach(f => document.write(`
+                <div class="food-card"><img src="${f.i}" class="food-img"><div class="food-info"><h4>${f.n}</h4>
+                <div class="food-footer"><span class="food-price">₹${f.p}</span>
+                <div class="btn-group"><button onclick="addToCart('${f.n}', ${f.p})" class="cart-btn">Add</button><button onclick="buyNow('${f.n}', ${f.p})" class="order-btn">Order</button></div></div></div></div>
+            `));
+        </script>
+    </div>
+
+    <h3 class="cat-heading">South Indian Flavors</h3>
+    <div class="dining-grid">
+        <script>
+            const south = [
+                {n:"Masala Dosa", p:150, i:"Dosa1.jpg"}, {n:"Idli Sambar", p:120, i:"Idli-Sambar.jpg"},
+                {n:"Medu Vada", p:130, i:"Medu-vada.jpg"}, {n:"Onion Uttapam", p:160, i:"onion-uttapam.webp"},
+                {n:"Mysore Dosa", p:180, i:"mysore-masala-dosa.jpg"}, {n:"Curd Rice", p:140, i:"curd-rice-2.webp"}
+            ];
+            south.forEach(f => document.write(`
+                <div class="food-card"><img src="${f.i}" class="food-img"><div class="food-info"><h4>${f.n}</h4>
+                <div class="food-footer"><span class="food-price">₹${f.p}</span>
+                <div class="btn-group"><button onclick="addToCart('${f.n}', ${f.p})" class="cart-btn">Add</button><button onclick="buyNow('${f.n}', ${f.p})" class="order-btn">Order</button></div></div></div></div>
+            `));
+        </script>
+    </div>
+
+    <h3 class="cat-heading">Sweet Tooth</h3>
+    <div class="dining-grid">
+        <script>
+            const sweets = [
+                {n:"Gulab Jamun", p:100, i:"GulabJ.webp"}, {n:"Rasmalai", p:150, i:"Rasmalai.png"},
+                {n:"Gajar Halwa", p:160, i:"Gajar-Ka-Halwa.jpg"}, {n:"Brownie", p:220, i:"sizzling_brownie_sundae_ice_cream.jpg"},
+                {n:"Kheer", p:130, i:"Kheer.jpg"}, {n:"Jalebi", p:140, i:"Jalebi.png"}
+            ];
+            sweets.forEach(f => document.write(`
+                <div class="food-card"><img src="${f.i}" class="food-img"><div class="food-info"><h4>${f.n}</h4>
+                <div class="food-footer"><span class="food-price">₹${f.p}</span>
+                <div class="btn-group"><button onclick="addToCart('${f.n}', ${f.p})" class="cart-btn">Add</button><button onclick="buyNow('${f.n}', ${f.p})" class="order-btn">Order</button></div></div></div></div>
+            `));
+        </script>
+    </div>
+
+    <div class="floating-cart" onclick="goToCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <div class="cart-count" id="cartCount">0</div>
+    </div>
+
+    <div id="toast">Item Added to Cart!</div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 15px;">URBAN<span>STAY</span></div>
+                <p>Redefining hospitality with a blend of modern luxury and traditional values. Your comfort is our devotion.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-chevron-right"></i> Our Management</a></li>
+                    <li><a href="services.html"><i class="fas fa-chevron-right"></i> Rooms & Dining</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 101 Luxury Lane, Mumbai, India</li>
+                    <li><i class="fas fa-phone-alt"></i> +91 98765 43210</li>
+                    <li><i class="fas fa-envelope"></i> booking@urbanstay.com</li>
+                    <li><i class="fas fa-clock"></i> 24/7 Front Desk Support</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p>Subscribe to get exclusive offers and updates.</p>
+                <form class="newsletter-form" id="newsForm">
+                    <input type="email" id="newsEmail" placeholder="Your Email" style="padding: 10px; width: 100%; border: none; border-radius: 4px 0 0 4px; outline: none;">
+                    <button style="padding: 10px 15px; background: var(--gold); border: none; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold;">GO</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 UrbanStay Hotel Management. All Rights Reserved. Designed with Excellence.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            updateCartCount();
+        };
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('urbanCart')) || [];
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function addToCart(item, price) {
+            let cart = JSON.parse(localStorage.getItem('urbanCart')) || [];
+            cart.push({ item: item, price: price });
+            localStorage.setItem('urbanCart', JSON.stringify(cart));
+            updateCartCount();
+            
+            var x = document.getElementById("toast");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+        function buyNow(item, price) {
+            window.location.href = `contact.html?type=food&item=${encodeURIComponent(item)}&price=${price}`;
+        }
+
+        function goToCart() {
+            window.location.href = `contact.html?type=cart`;
+        }
+
+        function bookRoom(roomName) {
+            window.location.href = `contact.html?type=room&room=${encodeURIComponent(roomName)}`;
+        }
+
+        document.getElementById('newsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('newsEmail').value;
+            fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            }).then(res => res.json()).then(data => {
+                alert(data.message);
+                document.getElementById('newsEmail').value = '';
+            });
+        });
+    </script>
+</body>
+</html>

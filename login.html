@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanStay | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --dark-bg: #0b0f19; --gold: #cfa162; --glass: rgba(255, 255, 255, 0.05); }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        
+        body {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1920');
+            background-size: cover; background-position: center;
+            height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+
+        /* Go Back Button */
+        .back-home {
+            position: absolute; top: 20px; left: 30px; color: #fff; text-decoration: none;
+            font-size: 1rem; display: flex; align-items: center; gap: 10px; opacity: 0.7; transition: 0.3s;
+        }
+        .back-home:hover { opacity: 1; color: var(--gold); }
+
+        /* Container */
+        .container {
+            width: 900px; height: 550px; background: var(--glass);
+            backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            display: flex; overflow: hidden; position: relative;
+        }
+
+        /* Left Side (Login/Register Forms) */
+        .form-section {
+            width: 100%; height: 100%; padding: 50px;
+            display: flex; flex-direction: column; justify-content: center;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .form-box h2 {
+            font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold); margin-bottom: 20px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .input-group { position: relative; margin-bottom: 25px; animation: fadeInUp 1s ease; }
+        .input-group input {
+            width: 100%; padding: 12px 0; font-size: 1rem; color: #fff;
+            background: transparent; border: none; border-bottom: 1px solid #aaa;
+            outline: none; transition: 0.3s;
+        }
+        .input-group label {
+            position: absolute; top: 12px; left: 0; color: #aaa; pointer-events: none; transition: 0.3s;
+        }
+
+        /* Animation for Input Focus */
+        .input-group input:focus ~ label,
+        .input-group input:valid ~ label {
+            top: -10px; font-size: 0.8rem; color: var(--gold);
+        }
+        .input-group input:focus, .input-group input:valid { border-bottom: 1px solid var(--gold); }
+
+        .btn-submit {
+            width: 100%; padding: 12px; background: var(--gold); color: #000; font-weight: bold;
+            border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;
+            transition: 0.3s; margin-top: 10px; text-transform: uppercase;
+        }
+        .btn-submit:hover { background: #fff; letter-spacing: 1px; }
+
+        .toggle-link {
+            margin-top: 20px; color: #ccc; font-size: 0.9rem; text-align: center; cursor: pointer;
+        }
+        .toggle-link span { color: var(--gold); font-weight: bold; }
+
+        /* Hide Register Form Initially */
+        #registerForm { display: none; }
+
+        /* Right Side (Decorative) */
+        .image-section {
+            width: 100%; height: 100%; 
+            background: linear-gradient(135deg, rgba(207, 161, 98, 0.2), rgba(0,0,0,0.8));
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            padding: 40px; color: #fff;
+        }
+        .image-section h1 { font-family: 'Playfair Display'; font-size: 3rem; margin-bottom: 10px; }
+        .image-section p { opacity: 0.8; line-height: 1.6; }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            .image-section { display: none; }
+            .container { width: 90%; height: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+
+    <div class="container">
+        
+        <div class="form-section" id="loginBox">
+            <div class="form-box">
+                <h2>Welcome Back</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <input type="email" id="loginEmail" required>
+                        <label>Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPass" required>
+                        <label>Password</label>
+                    </div>
+                    <button type="submit" class="btn-submit">Login</button>
+                    <p class="toggle-link" onclick="toggleForm()">Don't have an account? <span>Sign Up</span></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="form-section" id="registerBox" style="display: none;">
+            <div class="form-box">
+                <h2>Create Account</h2>
+                <form id="regForm">
+                    <div class="input-group">
+                        <input type="text" id="regName" required>
+                        <label>Full Name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="regEmail" required>
+                        <label>Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="regPass" required>
+                        <label>Password</label>
+                    </div>
+                    <button type="submit" class="btn-submit">Sign Up</button>
+                    <p class="toggle-link" onclick="toggleForm()">Already have an account? <span>Login</span></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="image-section">
+            <h1>UrbanStay</h1>
+            <p>Unlock exclusive deals, track your bookings, and experience luxury like never before.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Toggle between Login and Register
+        function toggleForm() {
+            const login = document.getElementById('loginBox');
+            const register = document.getElementById('registerBox');
+
+            if (login.style.display === 'none') {
+                login.style.display = 'flex';
+                register.style.display = 'none';
+            } else {
+                login.style.display = 'none';
+                register.style.display = 'flex';
+            }
+        }
+
+        // --- BACKEND CONNECTION ---
+
+        // 1. LOGIN LOGIC
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPass').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if(res.ok) {
+                    // --- SAVE USER TO LOCAL STORAGE ---
+                    localStorage.setItem('urbanUser', data.user);
+                    
+                    alert("Welcome back, " + data.user + "!");
+                    window.location.href = 'index.html'; // Redirect to Home
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert("Login Error: Server Disconnected");
+            }
+        });
+
+        // 2. REGISTER LOGIC
+        document.getElementById('regForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPass').value;
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+
+                if(res.ok) {
+                    alert(data.message);
+                    toggleForm(); // Switch to Login view
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                alert("Registration Error");
+            }
+        });
+    </script>
+</body>
+</html>

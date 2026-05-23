@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanStay | Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --dark-bg: #0b0f19; --card-bg: #151b2b; --gold: #cfa162; --text-main: #f3f4f6; --text-muted: #9ca3af; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background: var(--dark-bg); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; }
+
+        nav {
+            position: fixed; width: 100%; padding: 20px 50px; background: rgba(11, 15, 25, 0.95);
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000; border-bottom: 1px solid rgba(207, 161, 98, 0.2);
+            flex-wrap: wrap;
+        }
+        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; } .logo span { color: var(--gold); }
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: #fff; font-weight: 500; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+        .contact-container { display: flex; min-height: 80vh; padding-top: 80px; }
+        
+        .contact-left {
+            flex: 1; background: linear-gradient(rgba(11,15,25,0.8), rgba(11,15,25,0.9)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1920');
+            background-size: cover; background-position: center; color: #fff; padding: 80px 60px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .contact-left h1 { font-family: 'Playfair Display'; font-size: 3.5rem; margin-bottom: 20px; color: var(--gold); }
+        .contact-left p { font-size: 1.1rem; margin-bottom: 40px; opacity: 0.8; line-height: 1.6; }
+        
+        .info-box { margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
+        .info-box i { width: 50px; height: 50px; background: rgba(207, 161, 98, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--gold); }
+        .info-box h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 3px; }
+        .info-box span { font-size: 0.9rem; opacity: 0.7; }
+
+        .contact-right { flex: 1.2; background: var(--dark-bg); padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
+        .form-header { margin-bottom: 30px; }
+        .form-header h2 { font-size: 2.2rem; color: #fff; font-family: 'Playfair Display'; }
+
+        form { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .full { grid-column: span 2; }
+
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 15px; border: 1px solid #333; border-radius: 8px; font-family: 'Outfit'; font-size: 1rem;
+            transition: 0.3s; background: #0e121d; color: #fff;
+        }
+        .input-group input:focus, .input-group select:focus { border-color: var(--gold); outline: none; }
+
+        .submit-btn {
+            grid-column: span 2; padding: 18px; background: var(--gold); color: #000; border: none; font-size: 1rem; font-weight: 700;
+            text-transform: uppercase; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .submit-btn:hover { background: #fff; transform: translateY(-3px); }
+
+        #roomBookingSection, #foodOrderSection { display: none; }
+        .active-section { display: block !important; }
+
+        .order-summary {
+            background: #151b2b; padding: 20px; border-radius: 8px; border: 1px dashed var(--gold); margin-bottom: 20px;
+        }
+        .order-summary h3 { font-family: 'Playfair Display'; color: var(--gold); margin-bottom: 10px; }
+        .order-row { display: flex; justify-content: space-between; margin-bottom: 5px; color: #ccc; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .order-total { border-top: 1px solid #fff; margin-top: 10px; padding-top: 10px; font-weight: bold; color: #fff; font-size: 1.1rem; }
+
+        /* FOOTER */
+        footer { background: #05080f; color: #fff; padding-top: 70px; border-top: 1px solid #222; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; padding: 0 8% 60px; max-width: 1400px; margin: 0 auto; }
+        .footer-col h4 { font-size: 1.3rem; color: var(--gold); margin-bottom: 25px; font-family: 'Playfair Display'; letter-spacing: 1px; }
+        .footer-col p, .footer-col ul li a { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; text-decoration: none; transition: 0.3s; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a:hover { color: var(--gold); transform: translateX(5px); display: inline-block; }
+        .footer-col ul li i { color: var(--gold); width: 25px; margin-right: 5px; }
+        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+        .social-links a { width: 45px; height: 45px; background: rgba(255,255,255,0.05); color: var(--gold); display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.4s; border: 1px solid rgba(255,255,255,0.1); font-size: 1.1rem; }
+        .social-links a:hover { background: var(--gold); color: #000; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(207, 161, 98, 0.3); }
+        .newsletter-form { display: flex; margin-top: 15px; }
+        .newsletter-form input { padding: 10px; width: 100%; border: none; border-radius: 4px 0 0 4px; outline: none; }
+        .newsletter-form button { padding: 10px 15px; background: var(--gold); border: none; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; }
+        .footer-bottom { text-align: center; padding: 25px; background: #020305; font-size: 0.85rem; color: #666; letter-spacing: 1px; }
+
+        @media(max-width: 900px) { 
+            nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .nav-links { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            .contact-container { flex-direction: column; } 
+            .contact-left { padding: 60px 30px; } 
+            .contact-right { padding: 60px 30px; } 
+            .footer-container { padding: 0 20px 40px; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">URBAN<span>STAY</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">Management</a></li>
+            <li><a href="services.html">Rooms & Dining</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="contact-container">
+        
+        <div class="contact-left">
+            <h1 id="page-heading">Guest Services</h1>
+            <p id="page-desc">We are here to assist you 24/7.</p>
+            <div class="info-box"><i class="fas fa-map-marker-alt"></i><div><h4>Address</h4><span>101 Luxury Lane, Mumbai, India</span></div></div>
+            <div class="info-box"><i class="fas fa-phone-alt"></i><div><h4>Call Us</h4><span>+91 98765 43210</span></div></div>
+            <div class="info-box"><i class="fas fa-envelope"></i><div><h4>Email</h4><span>booking@urbanstay.com</span></div></div>
+        </div>
+
+        <div class="contact-right">
+            
+            <div id="roomBookingSection">
+                <div class="form-header"><h2>Book Your Stay</h2></div>
+                <form id="bookingForm">
+                    <div class="input-group full"><label>Full Name</label><input type="text" id="name" required></div>
+                    <div class="input-group"><label>Phone</label><input type="tel" id="phone" pattern="[0-9]{10}" placeholder="10 Digit Mobile No" required></div>
+                    <div class="input-group"><label>Email</label><input type="email" id="email" required></div>
+                    <div class="input-group"><label>Check In</label><input type="date" id="checkin" required></div>
+                    <div class="input-group"><label>Check Out</label><input type="date" id="checkout" required></div>
+                    <div class="input-group full">
+                        <label>Room Preference</label>
+                        <select id="room" required>
+                            <option value="" disabled selected>-- Select Room --</option>
+                            <optgroup label="Luxury AC Wing">
+                                <option value="Single Executive AC">Single Executive AC</option>
+                                <option value="Couple Deluxe AC">Couple Deluxe AC</option>
+                                <option value="Business Twin AC">Business Twin AC</option>
+                                <option value="Family Quad AC">Family Quad AC</option>
+                                <option value="Royal Maharaja Suite">Royal Maharaja Suite</option>
+                                <option value="Grand Joint Family AC">Grand Joint Family (8 Pax)</option>
+                            </optgroup>
+                            <optgroup label="Eco Non-AC Wing">
+                                <option value="Standard Single Non-AC">Standard Single</option>
+                                <option value="Standard Double Non-AC">Standard Double</option>
+                                <option value="Family Economy Non-AC">Family Economy</option>
+                                <option value="Traveler Dormitory">Traveler Dormitory</option>
+                                <option value="Budget Twin Non-AC">Budget Twin</option>
+                                <option value="Garden View Cottage">Garden View Cottage</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="input-group full">
+                        <label>Special Requests</label>
+                        <textarea id="requests" rows="3" placeholder="Dietary needs, Pickup, Decorations..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Confirm Booking</button>
+                </form>
+            </div>
+
+            <div id="foodOrderSection">
+                <div class="form-header"><h2>Checkout - Food Order</h2></div>
+                <form id="foodForm">
+                    <div class="full order-summary">
+                        <h3>Your Order</h3>
+                        <div id="orderItemsContainer"></div>
+                        <div class="order-row order-total"><span>Total Amount:</span> <span id="foodTotal" style="color:var(--gold);">₹0</span></div>
+                    </div>
+
+                    <div class="input-group full">
+                        <label>Your Room Number</label>
+                        <input type="number" id="roomNumber" placeholder="Ex: 101" required style="font-size: 1.2rem; font-weight: bold; color: var(--gold);">
+                    </div>
+                    <div class="input-group full">
+                        <label>Special Instructions</label>
+                        <textarea id="foodInstructions" rows="2" placeholder="Less oil, spicy..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Place Order</button>
+                    <button type="button" onclick="clearCartAndBack()" style="margin-top:10px; background:transparent; color:#666; border:none; cursor:pointer; width:100%;">Clear Cart</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 15px;">URBAN<span>STAY</span></div>
+                <p>Redefining hospitality with a blend of modern luxury and traditional values. Your comfort is our devotion.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-chevron-right"></i> Our Management</a></li>
+                    <li><a href="services.html"><i class="fas fa-chevron-right"></i> Rooms & Dining</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 101 Luxury Lane, Mumbai, India</li>
+                    <li><i class="fas fa-phone-alt"></i> +91 98765 43210</li>
+                    <li><i class="fas fa-envelope"></i> booking@urbanstay.com</li>
+                    <li><i class="fas fa-clock"></i> 24/7 Front Desk Support</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p>Subscribe to get exclusive offers and updates.</p>
+                <form class="newsletter-form" id="newsForm">
+                    <input type="email" id="newsEmail" placeholder="Your Email" style="padding: 10px; width: 100%; border: none; border-radius: 4px 0 0 4px; outline: none;" required>
+                    <button style="padding: 10px 15px; background: var(--gold); border: none; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold;">GO</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 UrbanStay Hotel Management. All Rights Reserved. Designed with Excellence.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Logic to switch between Room Booking and Food Ordering
+        window.onload = function() {
+            // Set min date for Checkin to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('checkin').setAttribute('min', today);
+            document.getElementById('checkout').setAttribute('min', today);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            
+            const roomSection = document.getElementById('roomBookingSection');
+            const foodSection = document.getElementById('foodOrderSection');
+            const pageHeading = document.getElementById('page-heading');
+
+            if (type === 'cart' || type === 'food') {
+                // FOOD MODE
+                roomSection.classList.remove('active-section');
+                foodSection.classList.add('active-section');
+                pageHeading.innerText = "Order Food";
+
+                let cart = [];
+                if(type === 'food') {
+                    const item = urlParams.get('item');
+                    const price = parseFloat(urlParams.get('price'));
+                    if(item) cart.push({item: item, price: price});
+                } else {
+                    cart = JSON.parse(localStorage.getItem('urbanCart')) || [];
+                }
+
+                const container = document.getElementById('orderItemsContainer');
+                let total = 0;
+                
+                if(cart.length === 0) {
+                    container.innerHTML = "<p style='color:#888;'>Cart is empty.</p>";
+                } else {
+                    container.innerHTML = "";
+                    cart.forEach(c => {
+                        total += c.price;
+                        container.innerHTML += `<div class="order-row"><span>${c.item}</span><span>₹${c.price}</span></div>`;
+                    });
+                }
+                
+                const tax = Math.round(total * 0.05);
+                container.innerHTML += `<div class="order-row" style="border-top:1px dashed #555; padding-top:5px; margin-top:5px;"><span>GST (5%)</span><span>₹${tax}</span></div>`;
+                
+                // Store total in data attribute to read easily
+                document.getElementById('foodTotal').innerText = '₹' + (total + tax);
+                document.getElementById('foodTotal').setAttribute('data-value', total + tax);
+
+            } else {
+                // ROOM BOOKING MODE
+                roomSection.classList.add('active-section');
+                foodSection.classList.remove('active-section');
+                pageHeading.innerText = "Book Your Stay";
+
+                const room = urlParams.get('room');
+                if (room) {
+                    const selectBox = document.getElementById('room');
+                    for (let i = 0; i < selectBox.options.length; i++) {
+                        if (selectBox.options[i].value === room) {
+                            selectBox.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
+        function clearCartAndBack() {
+            localStorage.removeItem('urbanCart');
+            window.location.href = 'services.html';
+        }
+
+        // --- BACKEND API CALLS ---
+
+        // 1. Room Booking
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // --- VALIDATION START ---
+            const phone = document.getElementById('phone').value;
+            if(phone.length !== 10 || isNaN(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return;
+            }
+
+            const checkin = new Date(document.getElementById('checkin').value);
+            const checkout = new Date(document.getElementById('checkout').value);
+
+            if(checkout <= checkin) {
+                alert("Check-out date must be after Check-in date.");
+                return;
+            }
+            // --- VALIDATION END ---
+
+            const data = {
+                name: document.getElementById('name').value,
+                phone: phone,
+                email: document.getElementById('email').value,
+                checkin: document.getElementById('checkin').value,
+                checkout: document.getElementById('checkout').value,
+                room: document.getElementById('room').value,
+                requests: document.getElementById('requests').value
+            };
+
+            fetch('/api/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(d => {
+                alert(d.message);
+                if(d.message.includes("Successfully") || d.message.includes("Confirmed")) {
+                    document.getElementById('bookingForm').reset(); // AUTO CLEAR FORM
+                    window.location.href = 'index.html'; // Redirect to home
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error booking room. Server might be down.");
+            });
+        });
+
+        // 2. Food Order
+        document.getElementById('foodForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validation
+            const roomNum = document.getElementById('roomNumber').value;
+            if(!roomNum) {
+                alert("Please enter your Room Number.");
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            let cartItems = [];
+
+            if(type === 'food') {
+                cartItems.push({
+                    item: urlParams.get('item'),
+                    price: parseFloat(urlParams.get('price'))
+                });
+            } else {
+                cartItems = JSON.parse(localStorage.getItem('urbanCart')) || [];
+            }
+
+            if(cartItems.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            const totalAmount = document.getElementById('foodTotal').getAttribute('data-value') || 0;
+
+            const data = {
+                roomNumber: roomNum,
+                items: cartItems,
+                total: totalAmount,
+                instructions: document.getElementById('foodInstructions').value
+            };
+
+            fetch('/api/order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => res.json()).then(d => {
+                alert(d.message);
+                document.getElementById('foodForm').reset(); // AUTO CLEAR FORM
+                localStorage.removeItem('urbanCart'); // Clear Local Storage
+                window.location.href = 'services.html';
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error placing order. Please try again.");
+            });
+        });
+
+        // 3. Newsletter
+        document.getElementById('newsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('newsEmail');
+            const email = emailInput.value;
+
+            if(!email) return; // Simple validation
+
+            fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            }).then(res => res.json()).then(data => {
+                alert(data.message);
+                emailInput.value = ''; // Clear input
+            });
+        });
+    </script>
+</body>
+</html>
